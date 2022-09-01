@@ -45,7 +45,7 @@ spec:
             silentResponse: false,
 
             regexpFilterText: '$ref',
-            regexpFilt4erExpression: 'refs/heads/' + BRANCH_NAME
+            regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
         )
     }
     stages {
