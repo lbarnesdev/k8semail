@@ -28,6 +28,26 @@ spec:
 """
         }
     }
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'ref', value: '$.ref']
+            ],
+
+            causeString: 'Triggered on $ref',
+
+            token: 'k8semail',
+            tokenCredentialId: '',
+
+            printContributedVariables: true,
+            printPostContent: true,
+
+            silentResponse: false,
+
+            regexpFilterText: '$ref',
+            regexpFilt4erExpression: 'refs/heads/' + BRANCH_NAME
+        )
+    }
     stages {
         stage('Build with Kaniko') {
             when { changeset "docker/postfix/Dockerfile" }
@@ -37,7 +57,7 @@ spec:
                     url: 'https://github.com/lbarnesdev/k8semail.git'
                 container(name: 'kaniko', shell: '/busybox/sh') {
                     sh '''#!/busybox/sh
-                    /kaniko/executor --force --context `pwd` --destination lbarnesdev/postfix:latest
+                    /kaniko/executor --force --context `pwd` --destination lbarnesdev/postfix:latest --dockerfile docker/postfix/Dockerfile
                     '''
                 }
             }
